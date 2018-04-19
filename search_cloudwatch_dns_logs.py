@@ -52,6 +52,6 @@ if __name__ == '__main__':
 
     search_string = sys.argv[1]
 
-    log_group_name = '/aws/route53/laconicwolf.net'
+    log_group_name = 'INSERT_DNS_LOG_GROUP'
 
     main()
