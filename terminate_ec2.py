@@ -40,8 +40,8 @@ def check_instance_id(instance_id):
 
 def main():
     if len(sys.argv) != 2:
-        print('\nUsage: ./terminate_ec2_instance.py <InstanceId>')
-        print('Example: ./terminate_ec2_instance.py i-01e4b573fedecdf41')
+        print('\nUsage: ./terminate_ec2.py <InstanceId>')
+        print('Example: ./terminate_ec2.py i-01e4b573fedecdf41')
         exit()
     instance_id = sys.argv[1]
     check_instance_id(instance_id)
