@@ -2,6 +2,12 @@ import boto3
 import sys
 
 
+__author__ = 'Jake Miller (@LaconicWolf)'
+__date__ = '20180425'
+__version__ = '0.01'
+__description__ = '''A tool to help automate the termination of EC-2 instances.'''
+
+
 def banner():
     '''Returns ascii art sourced from: http://patorjk.com/software/taag/
     '''
@@ -53,4 +59,6 @@ def main():
 
 if __name__ == '__main__':
     print(banner())
+    print('By: {}'.format(__author__))
+    print(__description__)
     main()
