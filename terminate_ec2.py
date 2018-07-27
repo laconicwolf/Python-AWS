@@ -1,30 +1,22 @@
-import boto3
-import sys
+#!/usr/bin/env python3
 
 
 __author__ = 'Jake Miller (@LaconicWolf)'
-__date__ = '20180425'
+__date__ = '20180727'
 __version__ = '0.01'
-__description__ = '''A tool to help automate the termination of EC-2 instances.'''
+__description__ = '''Terminates an EC2 instance when supplied an instance ID.'''
 
 
-def banner():
-    '''Returns ascii art sourced from: http://patorjk.com/software/taag/
-    '''
-    ascii_art = '''
-
-___________                  .__               __           ____________________           ________  
-\\__    ___/__________  _____ |__| ____ _____ _/  |_  ____   \\_   _____/\_   ___ \\          \\_____  \\ 
-  |    |_/ __ \\_  __ \\/     \\|  |/    \\\\__  \\\\   __\\/ __ \\   |    __)_ /    \\  \\/   ______  /  ____/ 
-  |    |\\  ___/|  | \\/  Y Y  \\  |   |  \\/ __ \\|  | \\  ___/   |        \\\\     \\____ /_____/ /       \\ 
-  |____| \\___  >__|  |__|_|  /__|___|  (____  /__|  \\___  > /_______  / \______  /         \\_______ \\
-             \\/            \\/        \\/     \\/          \\/          \\/         \\/                  \\/
-
-'''
-    return ascii_art
+import sys
+try:
+    import boto3
+except ImportError:
+    print("[-] This script requires boto3. Try 'pip install boto3', or do an Internet search \
+for installation instructions.")
 
 
 def terminate_ec2_instance(instance_id):
+    """Terminates the EC2 instance associated with the specified instance Id and returns the response."""
     ec2 = boto3.resource('ec2')
     instance = ec2.Instance(instance_id)
     try:
@@ -37,6 +29,7 @@ def terminate_ec2_instance(instance_id):
 
 
 def check_instance_id(instance_id):
+    """Checks if the instance ID appears to be valid."""
     if not instance_id.startswith('i-'):
         print('That doesn\'t look like an InstanceId...They \
             look like this: i-01e4b573fedecdf41')
@@ -58,7 +51,4 @@ def main():
 
 
 if __name__ == '__main__':
-    print(banner())
-    print('By: {}'.format(__author__))
-    print(__description__)
     main()
