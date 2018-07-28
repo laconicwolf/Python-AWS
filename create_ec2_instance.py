@@ -10,11 +10,16 @@ __description__ = '''Launches an EC2 instance.'''
 import argparse
 import time
 import os
+import sys
 try:
     import boto3
 except ImportError:
     print("[-] This script requires boto3. Try 'pip install boto3', or do an Internet search \
 for installation instructions.")
+
+# For safe backwards compatability with Python2
+if sys.version.startswith('2'):
+    input = raw_input
 
 
 def get_security_groups():
@@ -123,13 +128,11 @@ def get_ec2_public_ip_address(instance_id):
 
 
 def main():
-    print()
-    print('[+] You are launching an instance with the following options:')
+    print('\n[+] You are launching an instance with the following options:')
     print('    Image Id       {}'.format(image_id))
     print('    SSH Key Pair   {}'.format(key_name))
     print('    Instance Type  {}'.format(instance_type))
-    print('    Security Group {}'.format(security_group_id))
-    print()
+    print('    Security Group {}\n'.format(security_group_id))
     if not args.force:
         launch_answer = input('Would you like to continue? Type Y to continue launching, type any other key to quit.\n')
         if not launch_answer.lower().startswith('y'):
