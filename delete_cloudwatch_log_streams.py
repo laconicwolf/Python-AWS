@@ -39,5 +39,5 @@ def main():
 
 
 if __name__ == '__main__':
-    log_group_name = '/aws/route53/laconicwolf.net'
+    log_group_name = 'INSERT_LOG_GROUP_NAME_HERE'
     main()
