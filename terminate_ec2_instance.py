@@ -32,7 +32,7 @@ def check_instance_id(instance_id):
     """Checks if the instance ID appears to be valid."""
     if not instance_id.startswith('i-'):
         print('That doesn\'t look like an InstanceId...They \
-            look like this: i-01e4b573fedecdf41')
+look like this: i-01e4b573fedecdf41')
         print('Double check and try again.')
         exit()
 

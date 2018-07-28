@@ -77,7 +77,7 @@ def main():
         sorted_images = sorted(images, key=lambda k: k['CreationDate'], reverse=True)
         print('{:15}{:45}{:15}'.format('ImageId', 'ImageLocation', 'CreationDate'))
         for image in sorted_images:
-            if image['CreationDate'] < image_age:
+            if image['CreationDate'] > image_age:
                 if args.filter:
                     if not args.filter.lower() in image['ImageLocation'].lower():
                         continue
@@ -119,7 +119,7 @@ if __name__ == '__main__':
     parser.add_argument("-c",
                         "--creation_date",
                         type=int,
-                        default=30,
+                        default=180,
                         help="Specify a number. The number will be subtracted from the current date and results will \
 be limited to images created after that date.")
     parser.add_argument("-n",
