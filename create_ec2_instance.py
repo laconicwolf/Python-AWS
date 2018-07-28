@@ -48,7 +48,8 @@ def get_key_names():
     kp = response.get('KeyPairs')
     if not kp:
         key_names = None
-    key_names = [k['KeyName'] for k in kp]
+    else:
+        key_names = [k['KeyName'] for k in kp]
     return key_names
 
 
@@ -141,7 +142,6 @@ def main():
     time.sleep(2)
     instance_id = create_ec2_instance(image_id, instance_type, security_group_id, key_name)
     print('[+] EC2 instance launched!')
-    #print('    Type: {}'.format(instance_type))
     print('    ID: {}'.format(instance_id))
     time.sleep(2)
     print('[*] Getting instance IP address...')
@@ -168,7 +168,7 @@ if __name__ == '__main__':
     parser.add_argument("-id",
                         "--image_id",
                         nargs="?",
-                        const='ami-b70554c8', # Amazon Linux 2 AMI (HVM), SSD Volume Type 7/27/2018
+                        const='ami-b70554c8',  # Amazon Linux 2 AMI (HVM), SSD Volume Type 7/27/2018
                         help="Specify an Instance ID (-id ami-b70554c8).")
     parser.add_argument("-it",
                         "--instance_type",
@@ -201,7 +201,8 @@ search_images_ids.py, look up ImageIds in the AWS console, or you can just use t
     if args.key:
         key_name = args.key
     else:
-        print("\n[*] You did not specify an existing SSH key for this instance. You can supply a key with the -k option.")
+        print("\n[*] You did not specify an existing SSH key for this instance. You can supply a key with the -k \
+option.")
         existing_key_answer = input("[!] Would you like to see your existing keys? Type Y to see existing keys, C \
 to continue, or Q to quit.\n")
         if not existing_key_answer.lower().startswith('c'):
