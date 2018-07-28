@@ -22,7 +22,7 @@ or do an Internet search for installation instructions.")
 def check_aws_files():
     """Checks for the AWS credentials and config files in the default location."""
     if sys.platform.lower().startswith('win'):
-        cred_loc = str(Path.home()) +  '\\.aws\\'
+        cred_loc = str(Path.home()) + '\\.aws\\'
     else:
         cred_loc = str(Path.home()) + '/.aws/'
     if os.path.exists(cred_loc):
@@ -36,27 +36,29 @@ def check_aws_files():
         print('[-] AWS configuration files not found in {}. Exiting.'.format(cred_loc))
         exit()
 
-def get_images(architecture, hypervisor, is_public, owner, name, platform=None):
+
+def get_images(arch, hyper, public, owner, name, platform=None):
     """Uses describe_images to return a list of dictionarys of AWS images"""
     ec2 = boto3.client('ec2')
     if platform:
         response = ec2.describe_images(Filters=[
             {'Name': 'platform', 'Values': [platform]},
-            {'Name': 'architecture', 'Values': [architecture]},
-            {'Name': 'hypervisor', 'Values': [hypervisor]},
-            {'Name': 'is-public', 'Values': [is_public]},
+            {'Name': 'architecture', 'Values': [arch]},
+            {'Name': 'hypervisor', 'Values': [hyper]},
+            {'Name': 'is-public', 'Values': [public]},
             {'Name': 'owner-alias', 'Values': [owner]},
             {'Name': 'name', 'Values': [name]}
         ])
     else:
         response = ec2.describe_images(Filters=[
-            {'Name': 'architecture', 'Values': [architecture]},
-            {'Name': 'hypervisor', 'Values': [hypervisor]},
-            {'Name': 'is-public', 'Values': [is_public]},
+            {'Name': 'architecture', 'Values': [arch]},
+            {'Name': 'hypervisor', 'Values': [hyper]},
+            {'Name': 'is-public', 'Values': [public]},
             {'Name': 'owner-alias', 'Values': [owner]},
             {'Name': 'name', 'Values': [name]}
         ])
     return response.get('Images')
+
 
 def main():
     """Retrieves, sorts, and filters AWS images"""
@@ -79,7 +81,8 @@ def main():
                 if args.filter:
                     if not args.filter.lower() in image['ImageLocation'].lower():
                         continue
-                print('{:15}{:45}{:15}'.format(image['ImageId'], image['ImageLocation'][:40]+'...', image['CreationDate']))
+                print('{:15}{:45}{:15}'.format(
+                    image['ImageId'], image['ImageLocation'][:40]+'...', image['CreationDate']))
 
 
 if __name__ == '__main__':
