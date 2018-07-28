@@ -2,8 +2,7 @@ import boto3
 
 
 def get_log_stream_names(log_group_name):
-    ''' Returns a list of log stream names.
-    '''
+    """Returns a list of log stream names."""
     client = boto3.client('logs')
     streams = client.describe_log_streams(logGroupName=log_group_name)
     log_stream_names = []
@@ -15,8 +14,7 @@ def get_log_stream_names(log_group_name):
 
 
 def delete_log_streams(log_group_name, log_stream_name):
-    ''' Deletes log streams.
-    '''
+    """Deletes log streams."""
     client = boto3.client('logs')
     response = client.delete_log_stream(
         logGroupName=log_group_name,
