@@ -16,6 +16,7 @@ try:
 except ImportError:
     print("[-] This script requires boto3. Try 'pip install boto3', or do an Internet search \
 for installation instructions.")
+    exit()
 
 # For safe backwards compatability with Python2
 if sys.version.startswith('2'):
