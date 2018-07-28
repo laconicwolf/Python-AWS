@@ -17,6 +17,7 @@ try:
 except ImportError:
     print("[-] This script requires boto3. Try 'pip install boto3', \
 or do an Internet search for installation instructions.")
+    exit()
 
 
 def check_aws_files():
