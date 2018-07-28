@@ -125,10 +125,10 @@ def get_ec2_public_ip_address(instance_id):
 def main():
     print()
     print('[+] You are launching an instance with the following options:')
-    print('    Image Id{}'.format(image_id))
-    print('    SSH Key Pair{}'.format(key_name))
-    print('    Instance Type{}'.format(instance_type))
-    print('    Security Group{}'.format(security_group_id))
+    print('    Image Id       {}'.format(image_id))
+    print('    SSH Key Pair   {}'.format(key_name))
+    print('    Instance Type  {}'.format(instance_type))
+    print('    Security Group {}'.format(security_group_id))
     print()
     if not args.force:
         launch_answer = input('Would you like to continue? Type Y to continue launching, type any other key to quit.\n')
@@ -166,26 +166,35 @@ if __name__ == '__main__':
                         "--image_id",
                         nargs="?",
                         const='ami-b70554c8', # Amazon Linux 2 AMI (HVM), SSD Volume Type 7/27/2018
-                        default='ami-b70554c8',
                         help="Specify an Instance ID (-id ami-b70554c8).")
     parser.add_argument("-it",
                         "--instance_type",
                         nargs="?",
                         const='t2.micro',
                         default='t2.micro',
-                        help="Specify the Instance Type. Default is t2.micro")
+                        help="Specify the Instance Type. Default is t2.micro. For a listing of all types, please see \
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html")
     parser.add_argument("-ud",
                         "--user_data",
-                        help="Specify a script to run at start up.")
+                        help="Specify the file path of a script to run at start up (-ud \
+/home/jake/webserver_bootstrap.txt).")
     parser.add_argument("-sg",
                         "--security_group_id",
-                        help="Specify a Security Group ID")
+                        help="Specify a Security Group ID (-sg sg-a31c94ec)")
     parser.add_argument("-f",
                         "--force",
                         help="Launch instance without additional prompting.",
                         action="store_true")
     args = parser.parse_args()
 
+    if args.image_id:
+        image_id = args.image_id
+    else:
+        parser.print_help()
+        print('\n[-] Please specify an ImageId (-id). If you do not know any ImageIds, you can use the other tool, \
+search_images_ids.py, look up ImageIds in the AWS console, or you can just use this ID \'ami-b70554c8\', which is \
+ Amazon Linux 2 AMI (HVM), SSD Volume Type as of 7/27/2018.')
+        exit()
     if args.key:
         key_name = args.key
     else:
@@ -232,9 +241,9 @@ groups, C to continue, or Q to quit.\n")
                 existing_group_data = get_security_groups()
                 if existing_group_data:
                     print('[+] Existing Security Groups:')
-                    print('{:15}{:20}{:25}'.format('GroupId', 'Name', 'Description'))
+                    print('    {:15}{:20}{:25}'.format('GroupId', 'Name', 'Description'))
                     for data in existing_group_data:
-                        print('{:15}{:20}{:25}'.format(data[0], data[1], data[2]))
+                        print('    {:15}{:20}{:25}'.format(data[0], data[1], data[2]))
                     exit()
                 else:
                     print('[-] Querying security groups returned no existing groups.')
@@ -244,7 +253,6 @@ groups, C to continue, or Q to quit.\n")
                 print("[-] Invalid input. Quitting.")
                 exit()
 
-    image_id = args.image_id
     instance_type = args.instance_type
     if args.user_data:
         user_data_file = args.user_data
