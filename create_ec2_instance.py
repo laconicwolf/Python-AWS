@@ -256,6 +256,8 @@ groups, C to continue, or Q to quit.\n")
             else:
                 print("[-] Invalid input. Quitting.")
                 exit()
+        else:
+            security_group_id = None
 
     instance_type = args.instance_type
     if args.user_data:
