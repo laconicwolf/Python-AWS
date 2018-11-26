@@ -60,7 +60,11 @@ def create_keypair():
     key_name = 'my_ssh_key-{}'.format(time.ctime().split()[3].replace(':', ''))
     response = ec2.create_key_pair(KeyName=key_name)
     key_material = response.get('KeyMaterial')
-    key_file_name = key_name + '.pem'
+    if sys.platform.startswith('win'):
+        key_file_name = key_name + '.pem'
+    else:
+        key_file_name = key_name
+        os.chmod(key_file_name, 0o600)
     try:
         with open(key_file_name, 'w') as fh:
             fh.write(key_material)
