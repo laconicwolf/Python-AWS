@@ -64,10 +64,11 @@ def create_keypair():
         key_file_name = key_name + '.pem'
     else:
         key_file_name = key_name
-        os.chmod(key_file_name, 0o600)
     try:
         with open(key_file_name, 'w') as fh:
             fh.write(key_material)
+        if not sys.platform.startswith('win'):
+            os.chmod(key_file_name, 0o600)
         print('[+] File written to {}.'.format(key_file_name))
     except Exception as e:
         print('[-] An error occurred when writing the SSH key file. Error: {} \nExiting.'.format(e))
